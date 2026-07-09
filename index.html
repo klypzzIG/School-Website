@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A modern AI-inspired D.P. Public School interview portfolio." />
+  <title>D.P. Public School Interview Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="logo" href="#home" aria-label="Go to home">
+      <span class="logo-mark">DP</span>
+      <span data-field="school.shortName">DPPS</span>
+    </a>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#school-fit">School Fit</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <button class="edit-open" type="button">Customize</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero section-grid">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Interview Portfolio for <span data-field="school.name">D.P. Public School</span></p>
+        <h1>Hi, I'm <span class="gradient-text" data-field="student.name">Your Name</span> — ready to become a learner today and leader tomorrow.</h1>
+        <p class="hero-text" data-field="student.intro"></p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#school-fit">Why DPPS</a>
+          <a class="btn ghost" href="#contact">Contact Me</a>
+        </div>
+        <div class="quick-facts" id="quickFacts"></div>
+      </div>
+
+      <aside class="ai-panel reveal" aria-label="AI style introduction panel">
+        <div class="panel-top">
+          <span class="status-dot"></span>
+          <span>DPPS Interview Assistant Online</span>
+        </div>
+        <div class="terminal-lines" id="terminalLines"></div>
+        <div class="prompt-row">
+          <span>&gt;</span>
+          <span class="typing" id="typingText">Preparing DPPS-ready answers...</span>
+        </div>
+      </aside>
+    </section>
+
+    <section id="about" class="content-section reveal">
+      <div class="section-label">01 • About Me</div>
+      <div class="two-column">
+        <h2>I want to grow with discipline, curiosity, kindness, and confidence.</h2>
+        <div>
+          <p data-field="student.intro"></p>
+          <p>This portfolio is built for my school interview. You can update every personal detail, project, skill, and school point using the Customize button or by editing <code>content.js</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="school-fit" class="content-section reveal">
+      <div class="section-label">02 • School Fit</div>
+      <div class="two-column">
+        <h2>Why I want to join <span data-field="school.name">D.P. Public School</span></h2>
+        <div>
+          <p class="school-note">I used stable details from the official school website, such as the motto, vision, history, affiliation, facilities, and contact information. I avoided changing items like toppers, notices, and time-sensitive achievements.</p>
+          <div class="fit-list" id="schoolFitList"></div>
+        </div>
+      </div>
+      <div class="school-dashboard">
+        <article><span>Motto</span><strong data-field="school.motto"></strong></article>
+        <article><span>Affiliation</span><strong data-field="school.affiliation"></strong></article>
+        <article><span>Foundation</span><strong data-field="school.founded"></strong></article>
+      </div>
+    </section>
+
+    <section id="vision" class="content-section reveal">
+      <div class="section-label">03 • DPPS Vision Snapshot</div>
+      <h2>Values I can talk about in my interview</h2>
+      <div class="card-grid" id="visionCards"></div>
+    </section>
+
+    <section id="skills" class="content-section reveal">
+      <div class="section-label">04 • Skills</div>
+      <h2>My growing skill set</h2>
+      <div class="card-grid" id="skillsGrid"></div>
+    </section>
+
+    <section id="projects" class="content-section reveal">
+      <div class="section-label">05 • Projects</div>
+      <h2>Featured projects</h2>
+      <div class="project-list" id="projectsList"></div>
+    </section>
+
+    <section id="contact" class="content-section contact-section reveal">
+      <div class="section-label">06 • Contact</div>
+      <h2>Let's connect</h2>
+      <p>Update these details before your interview.</p>
+      <div class="contact-grid">
+        <a data-link="student.email" href="mailto:your.email@example.com" data-field="student.email"></a>
+        <a data-link="student.phone" href="tel:+910000000000" data-field="student.phone"></a>
+        <span data-field="student.city"></span>
+      </div>
+      <div class="school-contact">
+        <p><strong>School:</strong> <span data-field="school.address"></span></p>
+        <p><strong>Website:</strong> <a data-link="school.website" href="https://dppsprg.com" data-field="school.website"></a></p>
+        <p><strong>Email:</strong> <span data-field="school.email"></span> • <strong>Phone:</strong> <span data-field="school.phone"></span></p>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="editor-dialog" id="editorDialog">
+    <form method="dialog" class="editor-panel">
+      <div>
+        <p class="eyebrow">Local Portfolio Editor</p>
+        <h2>Update without asking anyone</h2>
+        <p>Change the JSON below, save it, and this browser will remember your edits. Use Reset to return to the original DPPS template.</p>
+      </div>
+      <textarea id="contentEditor" spellcheck="false"></textarea>
+      <div class="editor-actions">
+        <button class="btn ghost" value="cancel" type="submit">Close</button>
+        <button class="btn ghost" id="resetContent" type="button">Reset</button>
+        <button class="btn primary" id="saveContent" type="button">Save Updates</button>
+      </div>
+      <p class="editor-message" id="editorMessage" role="status"></p>
+    </form>
+  </dialog>
+
+  <footer>
+    <p>Designed by <span data-field="student.name">Your Name</span> • Built for <span data-field="school.name">D.P. Public School</span></p>
+  </footer>
+
+  <script src="content.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

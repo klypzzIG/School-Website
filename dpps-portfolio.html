@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A modern AI-inspired D.P. Public School interview portfolio." />
+  <title>D.P. Public School Interview Portfolio</title>
+  <style>
+:root {
+  --bg: #050816;
+  --panel: rgba(14, 22, 48, 0.72);
+  --text: #eef4ff;
+  --muted: #9fb0d0;
+  --cyan: #22d3ee;
+  --violet: #8b5cf6;
+  --pink: #ec4899;
+  --line: rgba(148, 163, 184, 0.18);
+  --shadow: 0 24px 80px rgba(34, 211, 238, 0.14);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(139, 92, 246, 0.28), transparent 32rem),
+    radial-gradient(circle at 85% 20%, rgba(34, 211, 238, 0.20), transparent 30rem),
+    linear-gradient(135deg, #030712, var(--bg) 55%, #0f1028);
+  overflow-x: hidden;
+}
+
+.cursor-glow {
+  position: fixed;
+  inset: auto;
+  width: 22rem;
+  height: 22rem;
+  border-radius: 999px;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.16), transparent 65%);
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.noise {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  background-image: linear-gradient(transparent 95%, rgba(255,255,255,.3) 96%), linear-gradient(90deg, transparent 95%, rgba(255,255,255,.25) 96%);
+  background-size: 32px 32px;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem clamp(1rem, 4vw, 4rem);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--line);
+  background: rgba(5, 8, 22, 0.72);
+}
+
+.logo, .nav-links a, .contact-grid a { color: var(--text); text-decoration: none; }
+.logo { display: flex; gap: .7rem; align-items: center; font-weight: 800; }
+.logo-mark { padding: .45rem .55rem; border-radius: .8rem; background: linear-gradient(135deg, var(--cyan), var(--violet)); color: #020617; }
+.nav-links { display: flex; gap: 1.2rem; }
+.nav-links a { color: var(--muted); font-weight: 600; transition: color .25s ease; }
+.nav-links a:hover { color: var(--cyan); }
+.nav-links a.active { color: var(--text); }
+.menu-toggle { display: none; background: none; border: 0; }
+.menu-toggle span { display: block; width: 1.6rem; height: 2px; margin: 5px; background: var(--text); }
+
+main { position: relative; z-index: 1; }
+.section-grid, .content-section { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; }
+.hero { min-height: 88vh; display: grid; grid-template-columns: 1.1fr .9fr; gap: 2rem; align-items: center; }
+.eyebrow, .section-label, .project-type { color: var(--cyan); font-family: 'Courier New', ui-monospace, monospace; text-transform: uppercase; letter-spacing: .12em; font-size: .78rem; }
+h1, h2 { margin: 0; line-height: 1.04; letter-spacing: -0.05em; }
+h1 { font-size: clamp(2.8rem, 8vw, 6.8rem); }
+h2 { font-size: clamp(2rem, 5vw, 4rem); }
+.hero-text, .content-section p { color: var(--muted); font-size: 1.05rem; line-height: 1.8; }
+.gradient-text { background: linear-gradient(90deg, var(--cyan), var(--violet), var(--pink)); -webkit-background-clip: text; color: transparent; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+.btn { padding: .95rem 1.25rem; border-radius: 999px; text-decoration: none; font-weight: 800; transition: transform .25s ease, box-shadow .25s ease; }
+.btn:hover { transform: translateY(-4px); }
+.primary { color: #020617; background: linear-gradient(135deg, var(--cyan), var(--violet)); box-shadow: var(--shadow); }
+.ghost { color: var(--text); border: 1px solid var(--line); background: rgba(255,255,255,.04); }
+
+.ai-panel, .glass-card, .project-card, .contact-grid {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(22px);
+}
+.ai-panel { border-radius: 1.5rem; padding: 1.4rem; min-height: 360px; position: relative; overflow: hidden; }
+.ai-panel::before { content: ''; position: absolute; inset: -40%; background: conic-gradient(from 90deg, transparent, rgba(34,211,238,.18), transparent, rgba(139,92,246,.18), transparent); animation: spin 8s linear infinite; }
+.ai-panel > * { position: relative; z-index: 1; }
+.panel-top { display: flex; gap: .6rem; align-items: center; color: var(--muted); font-family: 'Courier New', ui-monospace, monospace; }
+.status-dot { width: .7rem; height: .7rem; border-radius: 50%; background: #22c55e; box-shadow: 0 0 18px #22c55e; }
+.terminal-lines { margin: 2rem 0; display: grid; gap: .8rem; color: #dbeafe; font-family: 'Courier New', ui-monospace, monospace; }
+.terminal-lines p { margin: 0; padding: .8rem; border-radius: .8rem; background: rgba(2,6,23,.62); border: 1px solid rgba(34,211,238,.14); }
+.prompt-row { display: flex; gap: .5rem; color: var(--cyan); font-family: 'Courier New', ui-monospace, monospace; }
+.typing::after { content: '|'; animation: blink .75s infinite; }
+
+.content-section { padding: 6rem 0; }
+.two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+.card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2rem; }
+.glass-card, .project-card, .contact-grid { border-radius: 1.3rem; padding: 1.3rem; }
+.glass-card { transition: transform .25s ease, border-color .25s ease; }
+.glass-card:hover { transform: translateY(-8px); border-color: rgba(34,211,238,.55); }
+.glass-card span { font-size: 2rem; }
+.fit-list, .project-list { display: grid; gap: 1rem; margin-top: 2rem; }
+.fit-list article { display: grid; gap: .45rem; padding: 1rem; border: 1px solid var(--line); border-radius: 1rem; background: rgba(255,255,255,.04); }
+.fit-list strong { color: var(--text); }
+.fit-list span, .school-note { color: var(--muted); line-height: 1.7; }
+.project-card { display: grid; grid-template-columns: .7fr 1.3fr; gap: 1rem; align-items: center; }
+.contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; }
+footer { position: relative; z-index: 1; padding: 2rem; text-align: center; color: var(--muted); border-top: 1px solid var(--line); }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes blink { 50% { opacity: 0; } }
+
+@media (max-width: 820px) {
+  .menu-toggle { display: block; }
+  .nav-links { position: fixed; top: 4.3rem; left: 1rem; right: 1rem; display: none; flex-direction: column; padding: 1rem; border: 1px solid var(--line); border-radius: 1rem; background: rgba(5,8,22,.96); }
+  .nav-links.open { display: flex; }
+  .hero, .two-column, .project-card, .contact-grid { grid-template-columns: 1fr; }
+  .hero { padding: 4rem 0; }
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 520px) {
+  .card-grid { grid-template-columns: 1fr; }
+  .hero-actions { flex-direction: column; }
+  .btn { text-align: center; }
+  .ai-panel { min-height: 300px; }
+}
+
+.quick-facts, .school-dashboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.quick-facts article, .school-dashboard article, .school-contact {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.quick-facts span, .school-dashboard span {
+  display: block;
+  color: var(--cyan);
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: .45rem;
+}
+
+.school-dashboard { margin-top: 2rem; }
+.school-dashboard strong, .quick-facts strong { line-height: 1.5; }
+.school-contact { margin-top: 1.2rem; color: var(--muted); }
+.school-contact a { color: var(--cyan); }
+.edit-open {
+  color: #020617;
+  border: 0;
+  border-radius: 999px;
+  padding: .65rem .9rem;
+  font-weight: 800;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+}
+
+.editor-dialog {
+  width: min(920px, calc(100% - 2rem));
+  border: 1px solid var(--line);
+  border-radius: 1.4rem;
+  color: var(--text);
+  background: #070b1d;
+  box-shadow: var(--shadow);
+}
+
+.editor-dialog::backdrop { background: rgba(2, 6, 23, .78); backdrop-filter: blur(8px); }
+.editor-panel { display: grid; gap: 1rem; }
+.editor-panel h2 { font-size: clamp(1.7rem, 4vw, 3rem); }
+.editor-panel p { color: var(--muted); line-height: 1.7; }
+#contentEditor {
+  width: 100%;
+  min-height: 46vh;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1rem;
+  color: #dbeafe;
+  background: rgba(2, 6, 23, .9);
+  font-family: 'Courier New', ui-monospace, monospace;
+  line-height: 1.5;
+}
+.editor-actions { display: flex; justify-content: flex-end; gap: 1rem; flex-wrap: wrap; }
+.editor-actions .btn { border: 0; cursor: pointer; }
+.editor-message { min-height: 1.5rem; }
+
+@media (max-width: 820px) {
+  .quick-facts, .school-dashboard { grid-template-columns: 1fr; }
+  .edit-open { width: 100%; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="logo" href="#home" aria-label="Go to home">
+      <span class="logo-mark">DP</span>
+      <span data-field="school.shortName">DPPS</span>
+    </a>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="#about">About</a>
+      <a href="#school-fit">School Fit</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <button class="edit-open" type="button">Customize</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero section-grid">
+      <div class="hero-copy reveal">
+        <p class="eyebrow">Interview Portfolio for <span data-field="school.name">D.P. Public School</span></p>
+        <h1>Hi, I'm <span class="gradient-text" data-field="student.name">Your Name</span> — ready to become a learner today and leader tomorrow.</h1>
+        <p class="hero-text" data-field="student.intro"></p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#school-fit">Why DPPS</a>
+          <a class="btn ghost" href="#contact">Contact Me</a>
+        </div>
+        <div class="quick-facts" id="quickFacts"></div>
+      </div>
+
+      <aside class="ai-panel reveal" aria-label="AI style introduction panel">
+        <div class="panel-top">
+          <span class="status-dot"></span>
+          <span>DPPS Interview Assistant Online</span>
+        </div>
+        <div class="terminal-lines" id="terminalLines"></div>
+        <div class="prompt-row">
+          <span>&gt;</span>
+          <span class="typing" id="typingText">Preparing DPPS-ready answers...</span>
+        </div>
+      </aside>
+    </section>
+
+    <section id="about" class="content-section reveal">
+      <div class="section-label">01 • About Me</div>
+      <div class="two-column">
+        <h2>I want to grow with discipline, curiosity, kindness, and confidence.</h2>
+        <div>
+          <p data-field="student.intro"></p>
+          <p>This portfolio is built for my school interview. You can update every personal detail, project, skill, and school point using the Customize button or by editing <code>content.js</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="school-fit" class="content-section reveal">
+      <div class="section-label">02 • School Fit</div>
+      <div class="two-column">
+        <h2>Why I want to join <span data-field="school.name">D.P. Public School</span></h2>
+        <div>
+          <p class="school-note">I used stable details from the official school website, such as the motto, vision, history, affiliation, facilities, and contact information. I avoided changing items like toppers, notices, and time-sensitive achievements.</p>
+          <div class="fit-list" id="schoolFitList"></div>
+        </div>
+      </div>
+      <div class="school-dashboard">
+        <article><span>Motto</span><strong data-field="school.motto"></strong></article>
+        <article><span>Affiliation</span><strong data-field="school.affiliation"></strong></article>
+        <article><span>Foundation</span><strong data-field="school.founded"></strong></article>
+      </div>
+    </section>
+
+    <section id="vision" class="content-section reveal">
+      <div class="section-label">03 • DPPS Vision Snapshot</div>
+      <h2>Values I can talk about in my interview</h2>
+      <div class="card-grid" id="visionCards"></div>
+    </section>
+
+    <section id="skills" class="content-section reveal">
+      <div class="section-label">04 • Skills</div>
+      <h2>My growing skill set</h2>
+      <div class="card-grid" id="skillsGrid"></div>
+    </section>
+
+    <section id="projects" class="content-section reveal">
+      <div class="section-label">05 • Projects</div>
+      <h2>Featured projects</h2>
+      <div class="project-list" id="projectsList"></div>
+    </section>
+
+    <section id="contact" class="content-section contact-section reveal">
+      <div class="section-label">06 • Contact</div>
+      <h2>Let's connect</h2>
+      <p>Update these details before your interview.</p>
+      <div class="contact-grid">
+        <a data-link="student.email" href="mailto:your.email@example.com" data-field="student.email"></a>
+        <a data-link="student.phone" href="tel:+910000000000" data-field="student.phone"></a>
+        <span data-field="student.city"></span>
+      </div>
+      <div class="school-contact">
+        <p><strong>School:</strong> <span data-field="school.address"></span></p>
+        <p><strong>Website:</strong> <a data-link="school.website" href="https://dppsprg.com" data-field="school.website"></a></p>
+        <p><strong>Email:</strong> <span data-field="school.email"></span> • <strong>Phone:</strong> <span data-field="school.phone"></span></p>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="editor-dialog" id="editorDialog">
+    <form method="dialog" class="editor-panel">
+      <div>
+        <p class="eyebrow">Local Portfolio Editor</p>
+        <h2>Update without asking anyone</h2>
+        <p>Change the JSON below, save it, and this browser will remember your edits. Use Reset to return to the original DPPS template.</p>
+      </div>
+      <textarea id="contentEditor" spellcheck="false"></textarea>
+      <div class="editor-actions">
+        <button class="btn ghost" value="cancel" type="submit">Close</button>
+        <button class="btn ghost" id="resetContent" type="button">Reset</button>
+        <button class="btn primary" id="saveContent" type="button">Save Updates</button>
+      </div>
+      <p class="editor-message" id="editorMessage" role="status"></p>
+    </form>
+  </dialog>
+
+  <footer>
+    <p>Designed by <span data-field="student.name">Your Name</span> • Built for <span data-field="school.name">D.P. Public School</span></p>
+  </footer>
+
+  <script>
+const portfolioContent = {
+  student: {
+    name: 'Your Name',
+    role: 'Future DPPS Student',
+    email: 'your.email@example.com',
+    phone: '+91 00000 00000',
+    city: 'Prayagraj, Uttar Pradesh',
+    intro: 'I am a curious, disciplined student who wants to learn with honesty, confidence, creativity, and respect. I enjoy technology, science, communication, and teamwork.'
+  },
+  school: {
+    name: 'D.P. Public School',
+    shortName: 'DPPS',
+    website: 'https://dppsprg.com',
+    motto: 'Learners Today Leaders Tomorrow',
+    affiliation: 'CBSE affiliated school, Affiliation No. 2131116',
+    founded: 'Established in 1987 under the aegis of The Katra Education Society, Prayagraj',
+    address: '13/2, Master Dwarka Prasad Marg (Prayag Street), Katra, Prayagraj - 211002',
+    email: 'dpps.alld@gmail.com',
+    phone: '7054111495, 9389759009',
+    visionPoints: [
+      'Honesty, humility, humanity, and respect for parents, teachers, and elders.',
+      'An inclusive classroom atmosphere where students appreciate and respect diversity.',
+      'A life-long love of learning through exciting, authentic, and engaging lessons.',
+      'Balanced growth through STEM skills, compassion, resilience, work ethics, and other soft skills.'
+    ],
+    stableHighlights: [
+      'Science labs, library, sports room, infirmary, and curricular activities are highlighted by students on the school website.',
+      'The school emphasizes discipline, supportive teachers, student opportunities, and overall personality development.',
+      'The official website includes admission resources, rules, gallery, syllabus, calendar, and downloads.'
+    ]
+  },
+  schoolFit: [
+    {
+      title: 'Why DPPS matches my goals',
+      text: 'DPPS focuses on values, discipline, inclusive learning, and life-long curiosity, which matches the kind of student I want to become.'
+    },
+    {
+      title: 'How I will use the opportunities',
+      text: 'I want to participate in academics, STEM activities, sports, communication opportunities, and school programs with sincerity and confidence.'
+    },
+    {
+      title: 'How I will contribute',
+      text: 'I will respect teachers and classmates, help my peers, stay disciplined, take part in competitions, and represent the school with pride.'
+    }
+  ],
+  skills: [
+    { icon: '💻', title: 'Technology', text: 'HTML, CSS, JavaScript, digital presentations, research, and creative problem solving.' },
+    { icon: '🧠', title: 'Learning Mindset', text: 'Honest effort, curiosity, feedback, resilience, and improvement every day.' },
+    { icon: '🎤', title: 'Communication', text: 'Clear speaking, active listening, respectful answers, and confident interviews.' },
+    { icon: '🤝', title: 'Teamwork', text: 'Helping classmates, taking responsibility, and building a positive classroom environment.' }
+  ],
+  projects: [
+    { type: 'Science / STEM', title: 'Smart Energy Model', text: 'A school model showing how renewable energy can power a small community.' },
+    { type: 'Coding', title: 'Interactive Quiz App', text: 'A simple web quiz that makes revision fun with instant feedback.' },
+    { type: 'Community', title: 'Clean Campus Plan', text: 'A student-led idea to encourage recycling, teamwork, and responsibility.' }
+  ]
+};
+
+
+const storedContent = localStorage.getItem('portfolioContent');
+let activeContent = structuredClone(portfolioContent);
+
+if (storedContent) {
+  try {
+    activeContent = { ...activeContent, ...JSON.parse(storedContent) };
+  } catch {
+    localStorage.removeItem('portfolioContent');
+  }
+}
+
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+const cursorGlow = document.querySelector('.cursor-glow');
+const terminalLines = document.querySelector('#terminalLines');
+const typingText = document.querySelector('#typingText');
+const editorDialog = document.querySelector('#editorDialog');
+const contentEditor = document.querySelector('#contentEditor');
+const editorMessage = document.querySelector('#editorMessage');
+
+function getValue(path) {
+  return path.split('.').reduce((value, key) => value?.[key], activeContent) ?? '';
+}
+
+function renderFieldContent() {
+  document.querySelectorAll('[data-field]').forEach((element) => {
+    element.textContent = getValue(element.dataset.field);
+  });
+
+  document.querySelectorAll('[data-link]').forEach((element) => {
+    const value = getValue(element.dataset.link);
+    if (element.dataset.link.includes('email')) element.href = `mailto:${value}`;
+    if (element.dataset.link.includes('phone')) element.href = `tel:${value.replace(/\D/g, '')}`;
+    if (element.dataset.link.includes('website')) element.href = value;
+  });
+}
+
+function renderCards() {
+  document.querySelector('#quickFacts').innerHTML = [
+    ['Motto', activeContent.school.motto],
+    ['School', activeContent.school.shortName],
+    ['Location', 'Prayagraj']
+  ].map(([label, value]) => `<article><span>${label}</span><strong>${value}</strong></article>`).join('');
+
+  document.querySelector('#schoolFitList').innerHTML = activeContent.schoolFit
+    .map((item) => `<article><strong>${item.title}</strong><span>${item.text}</span></article>`).join('');
+
+  document.querySelector('#visionCards').innerHTML = activeContent.school.visionPoints
+    .map((text, index) => `<article class="glass-card"><span>0${index + 1}</span><h3>DPPS Value</h3><p>${text}</p></article>`).join('');
+
+  document.querySelector('#skillsGrid').innerHTML = activeContent.skills
+    .map((skill) => `<article class="glass-card"><span>${skill.icon}</span><h3>${skill.title}</h3><p>${skill.text}</p></article>`).join('');
+
+  document.querySelector('#projectsList').innerHTML = activeContent.projects
+    .map((project) => `<article class="project-card"><div><p class="project-type">${project.type}</p><h3>${project.title}</h3></div><p>${project.text}</p></article>`).join('');
+}
+
+function renderTerminal() {
+  const messages = [
+    `Target school: ${activeContent.school.name}`,
+    `Motto locked: ${activeContent.school.motto}`,
+    'Avoided temporary data: toppers, current notices, one-time events',
+    'Interview mode: honest, respectful, prepared'
+  ];
+
+  terminalLines.innerHTML = messages.map((message, index) => `<p>0${index + 1} / ${message}</p>`).join('');
+}
+
+function renderAll() {
+  renderFieldContent();
+  renderCards();
+  renderTerminal();
+}
+
+menuToggle.addEventListener('click', () => {
+  const isOpen = navLinks.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', String(isOpen));
+});
+
+document.querySelectorAll('.nav-links a').forEach((link) => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  });
+});
+
+const phrases = ['Preparing DPPS-ready answers...', 'Connecting goals with school values...', 'Ready for interview confidence.'];
+let phraseIndex = 0;
+setInterval(() => {
+  phraseIndex = (phraseIndex + 1) % phrases.length;
+  typingText.textContent = phrases[phraseIndex];
+}, 2200);
+
+window.addEventListener('pointermove', (event) => {
+  cursorGlow.style.left = `${event.clientX}px`;
+  cursorGlow.style.top = `${event.clientY}px`;
+});
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.16 });
+
+document.querySelectorAll('.reveal').forEach((element) => revealObserver.observe(element));
+
+document.querySelector('.edit-open').addEventListener('click', () => {
+  contentEditor.value = JSON.stringify(activeContent, null, 2);
+  editorMessage.textContent = '';
+  editorDialog.showModal();
+});
+
+document.querySelector('#saveContent').addEventListener('click', () => {
+  try {
+    activeContent = JSON.parse(contentEditor.value);
+    localStorage.setItem('portfolioContent', JSON.stringify(activeContent));
+    renderAll();
+    editorMessage.textContent = 'Saved! Your updates are stored in this browser.';
+  } catch (error) {
+    editorMessage.textContent = `Fix the JSON first: ${error.message}`;
+  }
+});
+
+document.querySelector('#resetContent').addEventListener('click', () => {
+  localStorage.removeItem('portfolioContent');
+  activeContent = structuredClone(portfolioContent);
+  contentEditor.value = JSON.stringify(activeContent, null, 2);
+  renderAll();
+  editorMessage.textContent = 'Reset to the original DPPS template.';
+});
+
+renderAll();
+
+  </script>
+</body>
+</html>
